@@ -5,7 +5,8 @@ target 'XMCaugh_Example' do
 
   target 'XMCaugh_Tests' do
     inherit! :search_paths
-
+   
+   pod 'AFNetworking', '~> 3.1.0'
     
   end
 end

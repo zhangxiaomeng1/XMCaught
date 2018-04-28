@@ -8,14 +8,50 @@
 
 #import "XMAppDelegate.h"
 
+#import "XMCaught.h"
+//#import "AFNetworking.h"
+//#import <AFNetworking/AFNetworking.h>
+
 @implementation XMAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+#pragma mark -- 崩溃日志
+    [XMCaught setDefaultHandler];
+    // 发送崩溃日志
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *dataPath = [path stringByAppendingPathComponent:@"Exception.txt"];
+    NSData *data = [NSData dataWithContentsOfFile:dataPath];
+    if (data != nil) {
+        [self sendExceptionLogWithData:data path:dataPath];
+    }
+    
     return YES;
 }
-
+#pragma mark -- 发送崩溃日志
+- (void)sendExceptionLogWithData:(NSData *)data path:(NSString *)path {
+    
+//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+//    manager.requestSerializer.timeoutInterval = 5.0f;
+//    //告诉AFN，支持接受 text/xml 的数据
+//    [AFJSONResponseSerializer serializer].acceptableContentTypes = [NSSet setWithObject:@"text/plain"];
+//    NSString *urlString = @"后台地址";
+//    
+//    [manager POST:urlString parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+//        [formData appendPartWithFileData:data name:@"file" fileName:@"Exception.txt" mimeType:@"txt"];
+//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+//        // 删除文件
+//        NSFileManager *fileManger = [NSFileManager defaultManager];
+//        [fileManger removeItemAtPath:path error:nil];
+//        
+//    } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
+//        
+//        
+//    }];
+    
+}
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
